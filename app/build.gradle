@@ -1,0 +1,70 @@
+plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+}
+
+android {
+    namespace 'com.rqueue.queue'
+    compileSdk 36
+
+    defaultConfig {
+        applicationId "com.rqueue.queueprocessor"
+        minSdk 21
+        targetSdk 36
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+}
+
+dependencies {
+
+    implementation project(':queueprocessor')
+
+    // Core Android KTX extension.
+    implementation(libs.androidx.core.ktx)
+    // Android AppCompat for backward compatibility.
+    implementation(libs.androidx.appcompat)
+    // Material Design components.
+    implementation(libs.material)
+
+
+    // Kotlin Coroutines core library for asynchronous programming.
+    // Assuming this is still a direct dependency or defined differently in libs.versions.toml
+    implementation(libs.kotlinx.coroutines.core)
+
+
+    // --- Testing Dependencies ---
+    // JUnit 5 API for writing tests (assuming 'junit' maps to JUnit 5 in your catalog).˚
+    testImplementation(libs.junit)
+    // AndroidX JUnit for instrumented tests.
+    androidTestImplementation(libs.androidx.junit)
+    // AndroidX Espresso for UI testing.
+    androidTestImplementation(libs.androidx.espresso.core)
+
+    // Mockito core library for creating mock objects.
+    // Assuming these are still direct dependencies or defined differently in libs.versions.toml
+    testImplementation(libs.mockito.core)
+    // Mockito-Kotlin provides a more idiomatic API for using Mockito with Kotlin.
+    testImplementation(libs.mockito.kotlin)
+
+    // Kotlin Coroutines Test utilities for testing suspend functions.
+    testImplementation(libs.kotlinx.coroutines.test)
+
+
+}
