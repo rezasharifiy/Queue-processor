@@ -1,46 +1,41 @@
-🚀 QueueProcessor
+### 🚀 QueueProcessor
 
-QueueProcessor is a robust and flexible Kotlin library designed for processing a queue of asynchronous tasks with built-in support for retries, backoff strategies, and timeouts. It leverages Kotlin Coroutines to efficiently manage task execution, ensuring reliability and responsiveness for critical background operations.
+
+QueueProcessor is a flexible Kotlin library for asynchronous task processing with built-in retries, backoff strategies, and timeouts. It uses Kotlin Coroutines for efficient, reliable, and responsive background operations.
 
 ✨ Features
-Asynchronous Processing: Non-blocking task execution using Kotlin Coroutines.
+QueueProcessor offers:
 
-Retry Mechanism: Configurable retries for transient failures (network errors, service unavailability).
+Asynchronous task handling with Kotlin Coroutines.
 
-Backoff Strategies: Implement exponential, fixed, or custom backoff delays between retries.
+Configurable retries and backoff delays for transient failures.
 
-Timeouts: Define execution timeouts for individual queue items or a default for all.
+Task-specific or global timeouts.
 
-Queue States: Track the lifecycle of each item (PENDING, SENDING, FAILED, TIMED_OUT).
+Queue state tracking (PENDING, SENDING, FAILED, TIMED_OUT).
 
-Pluggable Interfaces: Easily customize task execution (QueueRunner), retry logic (RetryStrategy), and backoff delays (BackoffStrategy).
+Pluggable interfaces for QueueRunner, RetryStrategy, and BackoffStrategy.
 
-InMemory Repository: Simple in-memory storage for queue items, suitable for short-lived processes or as a base for custom persistence.
+An in-memory repository for temporary storage.
 
 🏗️ How It Works
-The QueueProcessor operates by continuously checking its internal queue for PENDING items. When an item is found, it attempts to process it using the provided QueueRunner.
+The QueueProcessor continuously processes PENDING items.
 
-Enqueue: Items are added to the queue in a PENDING state.
+Enqueue: Add items to the queue.
 
-Processing Loop: A background coroutine loop fetches PENDING items.
+Loop: A background coroutine fetches and processes PENDING items.
 
-Execution: The QueueRunner's run method is invoked.
+Execute: QueueRunner.run() performs the task.
 
-Timeout: If a timeout is specified, withTimeoutOrNull ensures the task doesn't exceed its allotted time.
+Timeout: Tasks respect defined timeouts.
 
-Retries:
+Retries: Failures (run returns false, QueueException, QueueTimeoutException) increment retryCount, with BackoffStrategy determining delays. After maxRetries, MaxRetryException is thrown, and QueueRunner.onError() is called.
 
-If run returns false (explicit failure) or a QueueException occurs, the item's retryCount is incremented.
+Success: On run returning true, the item is removed.
 
-If a QueueTimeoutException occurs, it's also considered a failure that triggers a retry (depending on the RetryStrategy).
+Error Handling: All exceptions trigger QueueRunner.onError().
 
-A BackoffStrategy determines the delay before the next attempt.
 
-If maxRetries is exceeded, a MaxRetryException is thrown, and the onError callback of the QueueRunner is invoked.
-
-Success: If run returns true, the item is removed from the queue.
-
-Error Handling: All exceptions during processing are caught, and the QueueRunner's onError method is called before the item is potentially deleted or retried.
 
 📖 Usage
 1. Define Your Queue Item
@@ -181,4 +176,4 @@ Make sure your plugins block includes kotlin("jvm") (or kotlin("android") if it'
 Contributions are welcome! If you have ideas for improvements, bug fixes, or new features, please open an issue or submit a pull request.
 
 📜 License
-This project is licensed under the
+This project is licensed under the MIT License.
