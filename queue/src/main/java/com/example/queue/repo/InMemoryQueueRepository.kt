@@ -1,9 +1,8 @@
-package com.rqueue.queueprocessor.repo
+package com.example.queue.repo
 
 import android.util.Log
-import com.rqueue.queue.model.QueueItem
-import com.rqueue.queue.model.QueueState
-import com.rqueue.queueprocessor.model.QueueItem
+import com.example.queue.model.QueueItem
+import com.example.queue.model.QueueState
 import java.util.concurrent.ConcurrentHashMap
 
 /**

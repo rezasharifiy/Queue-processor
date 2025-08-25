@@ -1,4 +1,4 @@
-package com.rqueue.queueprocessor.model
+package com.example.queue.model
 
 import java.lang.Exception
 

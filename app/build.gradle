@@ -8,7 +8,7 @@ android {
     compileSdk 36
 
     defaultConfig {
-        applicationId "com.rqueue.queueprocessor"
+        applicationId "com.example.queue"
         minSdk 21
         targetSdk 36
         versionCode 1
@@ -34,7 +34,6 @@ android {
 
 dependencies {
 
-    implementation project(':queueprocessor')
 
     // Core Android KTX extension.
     implementation(libs.androidx.core.ktx)
@@ -47,6 +46,7 @@ dependencies {
     // Kotlin Coroutines core library for asynchronous programming.
     // Assuming this is still a direct dependency or defined differently in libs.versions.toml
     implementation(libs.kotlinx.coroutines.core)
+    implementation project(':queue')
 
 
     // --- Testing Dependencies ---
