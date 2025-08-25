@@ -103,8 +103,10 @@ class OnlyRetryOnTimeoutStrategy : RetryStrategy {
 Fixed Timeout (Global)
 ```
 val defaultFixedTimeout = FixedTimeout(timeoutMillis = 10_000) // 10 seconds
+```
 
-4. Initialize and Use QueueProcessor
+###  4. Initialize and Use QueueProcessor
+ ```  
 @OptIn(DelicateCoroutinesApi::class)
 fun main() = runBlocking {
     val emailRunner = EmailSenderRunner()
