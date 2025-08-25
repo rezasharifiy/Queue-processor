@@ -1,4 +1,4 @@
-package com.rqueue.queueprocessor.model
+package com.example.queue.model
 
 interface RetryStrategy {
     val strategy: Strategy

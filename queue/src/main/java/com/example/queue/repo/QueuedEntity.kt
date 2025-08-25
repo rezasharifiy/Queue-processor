@@ -1,6 +1,7 @@
-package com.rqueue.queueprocessor.repo
+package com.example.queue.repo
 
-import com.rqueue.queue.model.QueueState
+import com.example.queue.model.QueueState
+
 
 data class QueuedEntity(
     val id: String,

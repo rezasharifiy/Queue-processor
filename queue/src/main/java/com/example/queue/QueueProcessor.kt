@@ -1,17 +1,18 @@
-package com.rqueue.queueprocessor
+package com.example.queue
 
 
-import com.rqueue.queueprocessor.repo.InMemoryQueueRepository
-import com.rqueue.queueprocessor.exception.MaxRetryException
-import com.rqueue.queueprocessor.exception.QueueException
-import com.rqueue.queueprocessor.exception.QueueTimeoutException
-import com.rqueue.queueprocessor.model.BackoffStrategy
-import com.rqueue.queueprocessor.model.DefaultRetryStrategy
-import com.rqueue.queueprocessor.model.FixedTimeout
-import com.rqueue.queueprocessor.model.QueueItem
-import com.rqueue.queueprocessor.model.QueueRunner
-import com.rqueue.queueprocessor.model.QueueState
-import com.rqueue.queueprocessor.model.RetryStrategy
+import android.util.Log
+import com.example.queue.repo.InMemoryQueueRepository
+import com.example.queue.exception.MaxRetryException
+import com.example.queue.exception.QueueException
+import com.example.queue.exception.QueueTimeoutException
+import com.example.queue.model.BackoffStrategy
+import com.example.queue.model.DefaultRetryStrategy
+import com.example.queue.model.FixedTimeout
+import com.example.queue.model.QueueItem
+import com.example.queue.model.QueueRunner
+import com.example.queue.model.QueueState
+import com.example.queue.model.RetryStrategy
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.coroutineScope

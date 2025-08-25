@@ -1,7 +1,7 @@
-package com.rqueue.queueprocessor.repo
+package com.example.queue.repo
 
-import com.rqueue.queueprocessor.model.QueueItem
-import com.rqueue.queueprocessor.model.QueueState
+import com.example.queue.model.QueueItem
+import com.example.queue.model.QueueState
 
 interface QueueRepository<T : QueueItem<T>> {
     suspend fun add(entity: QueueItem<T>)
