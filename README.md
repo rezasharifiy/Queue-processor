@@ -1,47 +1,6 @@
-### 🚀 QueueProcessor
+###🚀 QueueProcessor
 
-
-QueueProcessor is a flexible Kotlin library for asynchronous task processing with built-in retries, backoff strategies, and timeouts. It uses Kotlin Coroutines for efficient, reliable, and responsive background operations.
-
-✨ Features
-QueueProcessor offers:
-
-Asynchronous task handling with Kotlin Coroutines.
-
-Configurable retries and backoff delays for transient failures.
-
-Task-specific or global timeouts.
-
-Queue state tracking (PENDING, SENDING, FAILED, TIMED_OUT).
-
-Pluggable interfaces for QueueRunner, RetryStrategy, and BackoffStrategy.
-
-An in-memory repository for temporary storage.
-
-🏗️ How It Works
-The QueueProcessor continuously processes PENDING items.
-
-Enqueue: Add items to the queue.
-
-Loop: A background coroutine fetches and processes PENDING items.
-
-Execute: QueueRunner.run() performs the task.
-
-Timeout: Tasks respect defined timeouts.
-
-Retries: Failures (run returns false, QueueException, QueueTimeoutException) increment retryCount, with BackoffStrategy determining delays. After maxRetries, MaxRetryException is thrown, and QueueRunner.onError() is called.
-
-Success: On run returning true, the item is removed.
-
-Error Handling: All exceptions trigger QueueRunner.onError().
-
-
-
-📖 Usage
-1. Define Your Queue Item
-Your items must implement the QueueItem interface. You can extend BaseQueueItem for convenience:
-
-// Example: EmailQueueItem.kt
+QueueProcessor is a flexible Kotlin library for asynchronous task processing with built-in retries, backoff strategies, and timeouts. It uses Kotlin Coroutines for efficient, reliable, and responsive background operations.✨ FeaturesQueueProcessor offers:Asynchronous task handling with Kotlin Coroutines.Configurable retries and backoff delays for transient failures.Task-specific or global timeouts.Queue state tracking (PENDING, SENDING, FAILED, TIMED_OUT).Pluggable interfaces for QueueRunner, RetryStrategy, and BackoffStrategy.An in-memory repository for temporary storage.🏗️ How It WorksThe QueueProcessor continuously processes PENDING items.Enqueue: Add items to the queue.Loop: A background coroutine fetches and processes PENDING items.Execute: QueueRunner.run() performs the task.Timeout: Tasks respect defined timeouts.Retries: Failures (run returns false, QueueException, QueueTimeoutException) increment retryCount, with BackoffStrategy determining delays. After maxRetries, MaxRetryException is thrown, and QueueRunner.onError() is called.Success: On run returning true, the item is removed.Error Handling: All exceptions trigger QueueRunner.onError().📖 Usage1. Define Your Queue ItemYour items must implement the QueueItem interface. You can extend BaseQueueItem for convenience:// Example: EmailQueueItem.kt
 data class EmailQueueItem(
     override val id: String,
     override var state: QueueState? = QueueState.PENDING,
@@ -50,11 +9,7 @@ data class EmailQueueItem(
     override var payload: String, // Contains the actual email content or ID
     override val priority: Int = 1
 ) : BaseQueueItem<EmailQueueItem>(id, state, retryCount, timeoutMillis, payload, priority)
-
-2. Implement Your Queue Runner
-This is where your actual task logic resides.
-
-// Example: EmailSenderRunner.kt
+2. Implement Your Queue RunnerThis is where your actual task logic resides.// Example: EmailSenderRunner.kt
 import com.rqueue.queueprocessor.model.QueueItem
 import com.rqueue.queueprocessor.model.QueueRunner
 import com.rqueue.queueprocessor.model.RetryStrategy
@@ -80,10 +35,7 @@ class EmailSenderRunner : QueueRunner<EmailQueueItem> {
         // or move the item to a dead-letter queue if it's a MaxRetryException.
     }
 }
-
-3. Configure Strategies (Optional, but Recommended)
-Backoff Strategy
-// Example: ExponentialBackoffStrategy.kt
+3. Configure Strategies (Optional, but Recommended)Backoff Strategy// Example: ExponentialBackoffStrategy.kt
 import com.rqueue.queueprocessor.model.BackoffStrategy
 
 class ExponentialBackoffStrategy(private val initialDelayMillis: Long = 1000) : BackoffStrategy {
@@ -91,30 +43,26 @@ class ExponentialBackoffStrategy(private val initialDelayMillis: Long = 1000) : 
         return initialDelayMillis * (1 shl retryCount) // 1s, 2s, 4s, 8s...
     }
 }
-
-Retry Strategy
-// Example: OnlyRetryOnTimeoutStrategy.kt
+Retry Strategy// Example: OnlyRetryOnTimeoutStrategy.kt
 import com.rqueue.queueprocessor.model.RetryStrategy
 
 class OnlyRetryOnTimeoutStrategy : RetryStrategy {
     override val strategy: RetryStrategy.Strategy = RetryStrategy.Strategy.RETRY_ON_TIME_OUT
 }
-
-Fixed Timeout (Global)
-If you want a default timeout for all items that don't specify their own.
-
-// Example: FixedTimeout.kt
+Fixed Timeout (Global)If you want a default timeout for all items that don't specify their own.// Example: FixedTimeout.kt
 import com.rqueue.queueprocessor.model.FixedTimeout
 
 val defaultFixedTimeout = FixedTimeout(timeoutMillis = 10_000) // 10 seconds
-
-4. Initialize and Use QueueProcessor
-import com.rqueue.queueprocessor.QueueProcessor
+4. Initialize and Use QueueProcessorimport com.rqueue.queueprocessor.QueueProcessor
 import com.rqueue.queueprocessor.model.DefaultRetryStrategy
 import com.rqueue.queueprocessor.model.FixedTimeout
+import com.rqueue.queueprocessor.EmailQueueItem // Added import
+import com.rqueue.queueprocessor.EmailSenderRunner // Added import
+import com.rqueue.queueprocessor.ExponentialBackoffStrategy // Added import
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.delay // Added import
 import java.util.UUID
 
 @OptIn(DelicateCoroutinesApi::class)
@@ -157,11 +105,7 @@ fun main() = runBlocking {
     println("Processing finished or time limit reached.")
     processor.clear() // Clear the queue and stop processing
 }
-
-📦 Installation
-Add the following dependencies to your build.gradle.kts file:
-
-// build.gradle.kts
+📦 InstallationAdd the following dependencies to your build.gradle.kts file:// build.gradle.kts
 
 dependencies {
     // Core Coroutines Library
@@ -169,11 +113,4 @@ dependencies {
 
     // (Your existing project dependencies like AndroidX, Material, etc.)
 }
-
-Make sure your plugins block includes kotlin("jvm") (or kotlin("android") if it's an Android project).
-
-🤝 Contributing
-Contributions are welcome! If you have ideas for improvements, bug fixes, or new features, please open an issue or submit a pull request.
-
-📜 License
-This project is licensed under the MIT License.
+Make sure your plugins block includes kotlin("jvm") (or kotlin("android") if it's an Android project).🤝 ContributingContributions are welcome! If you have ideas for improvements, bug fixes, or new features, please open an issue or submit a pull request.📜 LicenseThis project is licensed under the MIT License.
